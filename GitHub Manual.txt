@@ -1,3 +1,5 @@
+// for GitHub branch naming
 http://rumblefish.tistory.com/65
 
+// for GitHub training
 http://learnbranch.urigit.com/
