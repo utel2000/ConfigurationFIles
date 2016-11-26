@@ -1,0 +1,339 @@
+1. Java SE Development Kit 8u101
+  - http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+  - 환경변수 설정을 해야함.(서브노트나 네이버 검색 참고)
+
+2. Netbeans (Java EE)
+  - https://netbeans.org/downloads/
+  - 설치 서브노트 참고.
+
+3. Eclipse Neon1a
+  - http://www.eclipse.org/downloads/packages/eclipse-ide-java-ee-developers/neon1a
+  - Tomcat 다운로드 후 프로젝트 생성 시 Tomcat9 선택 및 실제 경로 지정.
+  - ojdbc6.jar(jdk 1.8기준)파일을 톰캣 실제 경로의 라이브러리에 복사.
+
+4. Oracle Database Express 11g / SQL Developer
+  - http://www.oracle.com/technetwork/database/database-technologies/express-edition/downloads/index.html
+  - http://www.oracle.com/technetwork/developer-tools/sql-developer/downloads/index.html
+  - SQL Developer는 334MB인 것을 받고 최초 실행 시 자바 설치 경로(예> C:\Program Files\Java\jdk1.8.0_101) 지정
+  - 계정 생성 및 권한 부여
+	cmd> sqlplus / as sysdba
+	sqlplus> create user mykosta identified by test00 default tablespace users;
+	sqlplus> grant resource, connect to mykosta;
+
+5. Apache Tomcat
+  - http://tomcat.apache.org/download-90.cgi
+  - Core에서 운영체제에 맞는 버전 다운로드.
+  - ojdbc6.jar를 실제 lib 경로에 복사-붙여넣기. (java8 기준이므로 버전에 맞는 파일을 붙여넣을 것.)
+
+6. cos.jar
+  - http://servlets.com/cos/
+
+7. struts2
+  - http://apache.org/ => project의 struts로 이동.
+  - http://struts.apache.org/
+  - full 과 application example 다운로드.(필요시 doc 등 참고.)
+  - 기타 설정 서브노트 참고.
+
+8. MyBatis
+  - http://www.mybatis.org/mybatis-3/ko/index.html
+
+9. JQuery
+  - http://jQuery.com
+  - CDN버전을 사용할 때 사용할 것
+  - https://blog.jquery.com/2013/01/09/jquery-1-9-rc1-and-migrate-rc1-released/#sourcemaps
+<script src="http://code.jquery.com/jquery-1.9.0rc1.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.0.0rc1.js"></script>
+
+10. Bootstrap
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+11. Spring
+  - http://spring.io/ 접속
+  - Spring Tool Suite 다운로드.
+  - spring-tool-suite-3.8.2.RELEASE-e4.6.1-win32-x86_64\sts-bundle\sts-3.8.2.RELEASE 내의 STS.exe 실행.
+  - Spring 최신 라이브러리 다운로드 가능한 사이트
+  - http://maven.springframework.org/release/org/springframework/spring/
+  - 이하 버전을 받을 수 있는 사이트
+  - http://docs.spring.io/downloads/nightly/release-download.php?project=SPR
+  - 라이브러리 다운로드
+  - http://maven.springframework.org/release/org/springframework/spring/ 에서 spring-framework-4.3.3.RELEASE-dist.zip 다운로드
+  - http://docs.spring.io/downloads/nightly/release-download.php?project=SPR 에서 SPR/spring-framework-3.0.2.RELEASE-dependencies.zip 다운로드
+  - spring-framework-3.0.2.RELEASE-dependencies\org.apache.commons\com.springsource.org.apache.commons.logging\1.1.1 에서 com.springsource.org.apache.commons.logging-1.1.1.jar를 WEB-INF/lib에 등록.
+  - spring-framework-4.3.3.RELEASE-dist\spring-framework-4.3.3.RELEASE\libs 에서 spring-aop-4.3.3.RELEASE.jar, spring-beans-4.3.3.RELEASE, spring-context-4.3.3.RELEASE, spring-core-4.3.3.RELEASE, spring-expression-4.3.3.RELEASE 5개의 파일을 WEB-INF/lib에 등록.
+  - 라이브러리 쉽게 다운로드 받는 방법
+  - STS에서 Project를 우클릭 후 Configuration에서 Maven Project로 전환.
+  - http://mavenrepository.com에 들어가서 검색어로 spring context를 입력 후 해당 버전 클릭
+  - Maven 란에 적혀있는 아래의 코드를 받아온다.
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-context</artifactId>
+    <version>4.3.3.RELEASE</version>
+</dependency>
+  - pom.xml에서 <packaging>과 <build>사이에 <dependencies></dependencies>를 만들어주고 그 사이에 받아온 코드를 집어넣고 저장하면 자동으로 필요한 라이브러리 6개를 받아온다.
+  - Maven으로 받아온 것은 인터넷 환경이 불안정하거나 하면 종종 먹통 or 라이브러리 유실이 발생하기도 하기 때문에 해당 문제 발생시 해결을 위한 초기화가 필요하다.
+  - 초기화 방법은 STS종료 후 윈도우의 ‘사용자’폴더 내의 .m2\repository폴더로 가서 모두 삭제하고 다시 STS를 실행하면 깔끔하게 다시 다운로드가 된다.
+  - @Autowired를 사용하기 위해서 mvnrepository.com을 방문해서 aspectj 로 검색한 후 Aspectj Weaver로 들어가서 해당 버전의 dependency를 복사하고 STS의 pom.xml에 붙여넣는다.
+<dependency>
+    <groupId>org.aspectj</groupId>
+    <artifactId>aspectjweaver</artifactId>
+    <version>1.8.9</version>
+</dependency>
+  - xml(spring config파일)을 만들 때 context 라는 namespace가 있어야만 어노테이션(@)을 사용할 수 있다.
+  - <context:annotation-config /> 를 xml파일 상단에 추가해야만 어노테이션을 사용할 수 있다.
+  - AOP를 사용하기 위해서 mvnrepository.com을 방문해서 aop 로 검색한 후 AOP Alliance로 들어가서 해당 버전의 dependency를 복사하고 STS의 pom.xml에 붙여넣는다.
+<dependency>
+    <groupId>aopalliance</groupId>
+    <artifactId>aopalliance</artifactId>
+    <version>1.0</version>
+</dependency>
+  - AOP 를 사용하기 위해서 mvnrepository.com을 방문해서 aspectjrt 로 검색한 후 aspectJ Runtime으로 들어가서 해당 버전의 dependency를 복사하고 STS의 pom.xml에 붙여넣는다.
+<dependency>
+    <groupId>org.aspectj</groupId>
+    <artifactId>aspectjrt</artifactId>
+    <version>1.8.8</version>
+</dependency>
+  - Spring MVC를 사용하기 위해서 pom.xml에 추가(mvnrepository.com)
+<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-webmvc</artifactId>
+	    <version>4.2.4.RELEASE</version>
+	  </dependency>
+	  <dependency>
+	    <groupId>jstl</groupId>
+	    <artifactId>jstl</artifactId>
+	    <version>1.2</version>
+	  </dependency>
+	  <dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-jdbc</artifactId>
+	    <version>4.2.4.RELEASE</version>
+	  </dependency>
+	  <dependency>
+	    <groupId>org.mybatis</groupId>
+	    <artifactId>mybatis</artifactId>
+	    <version>3.3.0</version>
+	  </dependency>
+	  <dependency>
+	    <groupId>org.mybatis</groupId>
+	    <artifactId>mybatis-spring</artifactId>
+	    <version>1.2.3</version>
+</dependency>
+  - web.xml의 <display-name>바로 밑에 붙여넣자.
+  <filter>
+  	<filter-name>CharacterEncodingFilter</filter-name>
+  	<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+  	<init-param>
+  		<param-name>encoding</param-name>
+  		<param-value>euc-kr</param-value>
+  	</init-param>
+  	<init-param>
+  		<param-name>forceEncoding</param-name>
+  		<param-value>true</param-value>
+  	</init-param>
+  </filter>
+  <filter-mapping>
+  	<filter-name>CharacterEncodingFilter</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <servlet>
+  	<servlet-name>kosta</servlet-name>
+  	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>kosta</servlet-name>
+  	<url-pattern>/</url-pattern>
+  </servlet-mapping>
+  <welcome-file-list>
+	<welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+<!-- Restricts access to pure JSP files -->
+	<security-constraint>
+		<display-name>No direct JSP access</display-name>
+		<web-resource-collection>
+			<web-resource-name>No-JSP</web-resource-name>
+			<url-pattern>*.jsp</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>no-users</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-role>
+		<description>Don't assign users to this role</description>
+		<role-name>no-users</role-name>
+	</security-role>
+  - Spring MVC 개발 순서
+    ① web.xml 필터, 시큐리티, 서블릿 환경설정
+    ② or.kosta.mvc.controller 패키지의 HelloController에 비즈니스 로직 정의
+    ③ WEB-INF/kosta-servlet.xml 에서 viewResolver설정 후 view 생성.
+<context:component-scan base-package="or.kosta.mvc" />
+<!-- 공통빈 설정 applicationContext.xml or context로 별도로 설정! -->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+  - myBatis를 이용하기 위해서 /WEB-INF/kosta-servlet.xml에 항목 추가.
+<!-- context.xml과 연결해서 DataSource객체를 관리 -->
+<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+	<property name="jndiName" value="java:comp/env/jdbc/myora" />
+</bean>
+<!-- MyBatis에게 DataSource를 주입, SqlSessionFactoryBean에게 config.xml과 mapper.xml을 주입
+ -->
+<bean id="factoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<property name="dataSource" ref="dataSource" />
+	<property name="configLocation" value="classpath:config/config.xml" />
+	<property name="mapperLocations" value="classpath*:mapper/*.xml" />
+</bean>
+
+<!-- SqlSessionTemplate에게 SqlSessionFactoryBean 주입 좀 더 쉽게 myBatis를 사용하도록 제공해주는 객체
+	Dao가 SqlSessionTemplate 주입을 받음(Autowired로 구현했음)
+ -->
+<bean id="ss" class="org.mybatis.spring.SqlSessionTemplate">
+	<constructor-arg ref="factoryBean" />
+</bean>
+  - FileUpload를 위해 mvnrepository에서 Apache Commons FileUpload로 검색.
+<dependency>
+    <groupId>commons-fileupload</groupId>
+    <artifactId>commons-fileupload</artifactId>
+    <version>1.3.1</version>
+</dependency>
+  - web.xml을 수정해서 kosta-servlet.xml파일의 이름을 바꿀 수 있게 커스터마이징.
+<init-param>
+	<param-name>contextConfigLocation</param-name>
+	<param-value>/WEB-INF/kosta-*.xml</param-value>
+</init-param>
+  - /WEB-INF/kosta-mem.xml 에 index 처리를 위해 추가.
+<bean name="/index"
+	class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+	p:viewName="index" 
+/>
+
+12. Tiles Framework
+  - http://tiles.apache.org에서 다운로드(또는 Maven dependency 사용)
+  <dependency>
+   <groupId>org.apache.tiles</groupId>
+   <artifactId>tiles-extras</artifactId>
+   <version>3.0.5</version>
+  </dependency>
+  <dependency>
+   <groupId>org.apache.tiles</groupId>
+   <artifactId>tiles-servlet</artifactId>
+   <version>3.0.5</version>
+  </dependency>
+  <dependency>
+   <groupId>org.apache.tiles</groupId>
+   <artifactId>tiles-jsp</artifactId>
+   <version>3.0.5</version>
+  </dependency>
+  - template.jsp에 추가할 내용. (2줄은 jQuery등록이니 구분해서 볼 것.)
+<link rel="stylesheet" type="text/css" href="resources/css/basic.css" />
+<link rel="stylesheet" type="text/css" href="resources/css/style.css" />
+<script src="http://code.jquery.com/jquery-1.9.0rc1.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.0.0rc1.js"></script>
+<script src="resources/js/basic.js"></script>
+<script src="resources/js/vote.js"></script>
+  - web.xml에서 공통빈 설정. (스프링이 아니고 ApplicationScope에 해당. 참고로 init-param은 pageContext에 해당.)
+<!-- context-param 공통빈이 실행된다. -->
+  <context-param>
+  	<param-name>contextConfigLocation</param-name>
+  	<param-value>/WEB-INF/spring/root-context.xml</param-value>
+  </context-param>
+  <!-- listener에 의해 root-context가 먼저 실행됨 -->
+  <listener>
+  	<listener-class>
+  		org.springframework.web.context.ContextLoaderListener
+  	</listener-class>
+  </listener>
+  - WEB-INF/tiles/tiles-definitions.xml에 상단부분 추가내용을 http://tiles.apache.org에서 가져올 것.
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+  - JSON의 정보 및 라이브러리(웹 브라우저가 낮은 버전일 경우에나 필요. json2.js를 링크 걸어야 낮은 버전 브라우저에서 json 사용 가능.
+  - http://json.org/
+  - ------------------------- pom.xml 최종본 (갱신 중) --------------------------------
+<dependencies>
+  <!-- BASE -->
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-context</artifactId>
+   <version>4.2.4.RELEASE</version>
+  </dependency>
+  <!-- AOP -->
+  <dependency>
+   <groupId>aopalliance</groupId>
+   <artifactId>aopalliance</artifactId>
+   <version>1.0</version>
+  </dependency>
+  <dependency>
+   <groupId>org.aspectj</groupId>
+   <artifactId>aspectjweaver</artifactId>
+   <version>1.8.8</version>
+  </dependency>
+  <dependency>
+   <groupId>org.aspectj</groupId>
+   <artifactId>aspectjrt</artifactId>
+   <version>1.8.8</version>
+  </dependency>
+  <!-- Spring MVC -->
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-web</artifactId>
+   <version>4.2.4.RELEASE</version>
+  </dependency>
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-webmvc</artifactId>
+   <version>4.2.4.RELEASE</version>
+  </dependency>
+  <!-- JSTL -->
+  <dependency>
+   <groupId>jstl</groupId>
+   <artifactId>jstl</artifactId>
+   <version>1.2</version>
+  </dependency>
+  <!-- myBatis -->
+  <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-jdbc</artifactId>
+   <version>4.2.4.RELEASE</version>
+  </dependency>
+  <dependency>
+   <groupId>org.mybatis</groupId>
+   <artifactId>mybatis</artifactId>
+   <version>3.3.0</version>
+  </dependency>
+  <dependency>
+   <groupId>org.mybatis</groupId>
+   <artifactId>mybatis-spring</artifactId>
+   <version>1.2.3</version>
+  </dependency>
+  <!-- FileUpload -->
+  <dependency>
+    <groupId>commons-fileupload</groupId>
+    <artifactId>commons-fileupload</artifactId>
+    <version>1.3.2</version>
+  </dependency>
+  <!-- Tiles 설정 -->
+  <dependency>
+   <groupId>org.apache.tiles</groupId>
+   <artifactId>tiles-extras</artifactId>
+   <version>3.0.5</version>
+  </dependency>
+  <dependency>
+   <groupId>org.apache.tiles</groupId>
+   <artifactId>tiles-servlet</artifactId>
+   <version>3.0.5</version>
+  </dependency>
+  <dependency>
+   <groupId>org.apache.tiles</groupId>
+   <artifactId>tiles-jsp</artifactId>
+   <version>3.0.5</version>
+  </dependency>
+  <!-- JSON?? -->
+  <dependency>
+   <groupId>com.fasterxml.jackson.core</groupId>
+   <artifactId>jackson-databind</artifactId>
+   <version>2.7.4</version>
+  </dependency>
+ </dependencies>
