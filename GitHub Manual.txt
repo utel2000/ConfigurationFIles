@@ -3,3 +3,6 @@ http://rumblefish.tistory.com/65
 
 // for GitHub training
 http://learnbranch.urigit.com/
+
+// GitHub Branch Model
+http://traeper.tistory.com/172
