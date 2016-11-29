@@ -251,89 +251,279 @@
        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
   - JSON의 정보 및 라이브러리(웹 브라우저가 낮은 버전일 경우에나 필요. json2.js를 링크 걸어야 낮은 버전 브라우저에서 json 사용 가능.
   - http://json.org/
+  - pom.xml에서의 dependency들의 버전을 통합해서 관리할 수 있는 properties설정.
+<properties>
+	<java-version>1.8</java-version>
+	<org.springframework-version>4.0.2.RELEASE</org.springframework-version>
+	<org.aspectj-version>1.7.4</org.aspectj-version>
+	<org.slf4j-version>1.7.5</org.slf4j-version>
+</properties>
+  - SpringSecurity를 위해 pom.xml에 추가할 dependency 3가지
+<!-- Spring Security -->
+<dependency>
+	<groupId>org.springframework.security</groupId>
+	<artifactId>spring-security-config</artifactId>
+	<version>3.2.3.RELEASE</version>
+</dependency>
+<dependency>
+	<groupId>org.springframework.security</groupId>
+	<artifactId>spring-security-web</artifactId>
+	<version>3.2.3.RELEASE</version>
+</dependency>
+<dependency>
+	<groupId>org.springframework.security</groupId>
+	<artifactId>spring-security-taglibs</artifactId>
+	<version>3.0.5.RELEASE</version>
+</dependency>
+  - SpringSecurity를 위해 web.xml에 추가.
+<context-param>
+	<param-name>contextConfigLocation</param-name>
+	<param-value>/WEB-INF/spring/appServlet/spring-security.xml</param-value>
+</context-param>
+<listener>
+	<listener-class>
+		org.springframework.web.context.ContextLoaderListener
+	</listener-class>
+</listener>
+<listener>
+	<listener-class>
+		org.springframework.security.web.session.HttpSessionEventPublisher
+	</listener-class>
+</listener>
+<session-config>
+	<session-timeout>15</session-timeout>
+</session-config>
+<filter>
+	<filter-name>springSecurityFilterChain</filter-name>
+	<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+</filter>
+<filter-mapping>
+	<filter-name>springSecurityFilterChain</filter-name>
+	<url-pattern>/*</url-pattern>
+</filter-mapping>
+<servlet>
+	<servlet-name>appServlet</servlet-name>
+	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	<init-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring/appServlet/*-context.xml</param-value>
+	</init-param>
+	<load-on-startup>1</load-on-startup>
+</servlet>
+<servlet-mapping>
+	<servlet-name>appServlet</servlet-name>
+	<url-pattern>/</url-pattern>
+</servlet-mapping>
+  - http://spring.io/에서 project - SpringSecurity에서 해당하는 버전의 reference로 가서 namespace Configuration에서 해당 항목을 복사해와서 WEB-INF/spring/appServlet/spring-security.xml에 넣고 작성한다.
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+  xmlns:beans="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security.xsd">
+    ...
+</beans:beans>
+
   - ------------------------- pom.xml 최종본 (갱신 중) --------------------------------
+<properties>
+	<java-version>1.8</java-version>
+	<org.springframework-version>4.2.4.RELEASE</org.springframework-version>
+	<org.springframework.security-version>3.2.3.RELEASE</org.springframework.security-version>
+	<org.aspectj-version>1.8.8</org.aspectj-version>
+	<aopalliance-version>1.0</aopalliance-version>
+	<org.slf4j-version>1.7.5</org.slf4j-version>
+	<log4j-version>1.2.15</log4j-version>
+	<javax.inject-version>1</javax.inject-version>
+	<javax.servlet-version>2.5</javax.servlet-version>
+	<javax.servlet.jsp-version>2.1</javax.servlet.jsp-version>
+	<javax.servlet_jstl-version>1.2</javax.servlet_jstl-version>
+	<commons-dbcp-version>1.4</commons-dbcp-version>
+	<commons-fileupload-version>1.3.2</commons-fileupload-version>
+	<org.mybatis-version>3.3.0</org.mybatis-version>
+	<org.mybatis_spring-version>1.2.3</org.mybatis_spring-version>
+	<org.apache.tiles-version>3.0.5</org.apache.tiles-version>
+	<com.fasterxml.jackson.core-version>2.7.4</com.fasterxml.jackson.core-version>
+	<junit-version>4.7</junit-version>
+</properties>
+<!-- dependencies 추가 -->
 <dependencies>
-  <!-- BASE -->
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-context</artifactId>
-   <version>4.2.4.RELEASE</version>
-  </dependency>
-  <!-- AOP -->
-  <dependency>
-   <groupId>aopalliance</groupId>
-   <artifactId>aopalliance</artifactId>
-   <version>1.0</version>
-  </dependency>
-  <dependency>
-   <groupId>org.aspectj</groupId>
-   <artifactId>aspectjweaver</artifactId>
-   <version>1.8.8</version>
-  </dependency>
-  <dependency>
-   <groupId>org.aspectj</groupId>
-   <artifactId>aspectjrt</artifactId>
-   <version>1.8.8</version>
-  </dependency>
-  <!-- Spring MVC -->
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-web</artifactId>
-   <version>4.2.4.RELEASE</version>
-  </dependency>
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-webmvc</artifactId>
-   <version>4.2.4.RELEASE</version>
-  </dependency>
-  <!-- JSTL -->
-  <dependency>
-   <groupId>jstl</groupId>
-   <artifactId>jstl</artifactId>
-   <version>1.2</version>
-  </dependency>
-  <!-- myBatis -->
-  <dependency>
-   <groupId>org.springframework</groupId>
-   <artifactId>spring-jdbc</artifactId>
-   <version>4.2.4.RELEASE</version>
-  </dependency>
-  <dependency>
-   <groupId>org.mybatis</groupId>
-   <artifactId>mybatis</artifactId>
-   <version>3.3.0</version>
-  </dependency>
-  <dependency>
-   <groupId>org.mybatis</groupId>
-   <artifactId>mybatis-spring</artifactId>
-   <version>1.2.3</version>
-  </dependency>
-  <!-- FileUpload -->
-  <dependency>
-    <groupId>commons-fileupload</groupId>
-    <artifactId>commons-fileupload</artifactId>
-    <version>1.3.2</version>
-  </dependency>
-  <!-- Tiles 설정 -->
-  <dependency>
-   <groupId>org.apache.tiles</groupId>
-   <artifactId>tiles-extras</artifactId>
-   <version>3.0.5</version>
-  </dependency>
-  <dependency>
-   <groupId>org.apache.tiles</groupId>
-   <artifactId>tiles-servlet</artifactId>
-   <version>3.0.5</version>
-  </dependency>
-  <dependency>
-   <groupId>org.apache.tiles</groupId>
-   <artifactId>tiles-jsp</artifactId>
-   <version>3.0.5</version>
-  </dependency>
-  <!-- JSON?? -->
-  <dependency>
-   <groupId>com.fasterxml.jackson.core</groupId>
-   <artifactId>jackson-databind</artifactId>
-   <version>2.7.4</version>
-  </dependency>
- </dependencies>
+	<!-- Spring -->
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context</artifactId>
+		<version>${org.springframework-version}</version>
+		<exclusions>
+			<!-- Exclude Commons Logging in favor of SLF4j -->
+			<exclusion>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging</artifactId>
+			</exclusion>
+		</exclusions>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-web</artifactId>
+		<version>${org.springframework-version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-webmvc</artifactId>
+		<version>${org.springframework-version}</version>
+	</dependency>
+	<!-- Spring Security -->
+	<dependency>
+		<groupId>org.springframework.security</groupId>
+		<artifactId>spring-security-config</artifactId>
+		<version>${org.springframework.security-version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.security</groupId>
+		<artifactId>spring-security-web</artifactId>
+		<version>${org.springframework.security-version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.security</groupId>
+		<artifactId>spring-security-taglibs</artifactId>
+		<version>${org.springframework.security-version}</version>
+	</dependency>
+	<!-- AspectJ -->
+	<dependency>
+		<groupId>org.aspectj</groupId>
+		<artifactId>aspectjrt</artifactId>
+		<version>${org.aspectj-version}</version>
+	</dependency>
+	<!-- AOP -->
+	<dependency>
+		<groupId>aopalliance</groupId>
+		<artifactId>aopalliance</artifactId>
+		<version>${aopalliance-version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.aspectj</groupId>
+		<artifactId>aspectjweaver</artifactId>
+		<version>${org.aspectj-version}</version>
+	</dependency>
+	<!-- Logging -->
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-api</artifactId>
+		<version>${org.slf4j-version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>jcl-over-slf4j</artifactId>
+		<version>${org.slf4j-version}</version>
+		<scope>runtime</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-log4j12</artifactId>
+		<version>${org.slf4j-version}</version>
+		<scope>runtime</scope>
+	</dependency>
+	<dependency>
+		<groupId>log4j</groupId>
+		<artifactId>log4j</artifactId>
+		<version>${log4j-version}</version>
+		<exclusions>
+			<exclusion>
+				<groupId>javax.mail</groupId>
+				<artifactId>mail</artifactId>
+			</exclusion>
+			<exclusion>
+				<groupId>javax.jms</groupId>
+				<artifactId>jms</artifactId>
+			</exclusion>
+			<exclusion>
+				<groupId>com.sun.jdmk</groupId>
+				<artifactId>jmxtools</artifactId>
+			</exclusion>
+			<exclusion>
+				<groupId>com.sun.jmx</groupId>
+				<artifactId>jmxri</artifactId>
+			</exclusion>
+		</exclusions>
+		<scope>runtime</scope>
+	</dependency>
+	<!-- @Inject -->
+	<dependency>
+		<groupId>javax.inject</groupId>
+		<artifactId>javax.inject</artifactId>
+		<version>${javax.inject-version}</version>
+	</dependency>
+	<!-- Servlet -->
+	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>servlet-api</artifactId>
+		<version>${javax.servlet-version}</version>
+		<scope>provided</scope>
+	</dependency>
+	<dependency>
+		<groupId>javax.servlet.jsp</groupId>
+		<artifactId>jsp-api</artifactId>
+		<version>${javax.servlet.jsp-version}</version>
+		<scope>provided</scope>
+	</dependency>
+	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>jstl</artifactId>
+		<version>${javax.servlet_jstl-version}</version>
+	</dependency>
+	<!-- Database -->
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-jdbc</artifactId>
+		<version>${org.springframework-version}</version>
+	</dependency>
+	<dependency>
+		<groupId>commons-dbcp</groupId>
+		<artifactId>commons-dbcp</artifactId>
+		<version>${commons-dbcp-version}</version>
+	</dependency>
+	<dependency>
+		<groupId>commons-fileupload</groupId>
+		<artifactId>commons-fileupload</artifactId>
+		<version>${commons-fileupload-version}</version>
+	</dependency>
+	<!-- mybatis -->
+	<dependency>
+		<groupId>org.mybatis</groupId>
+		<artifactId>mybatis</artifactId>
+		<version>${org.mybatis-version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.mybatis</groupId>
+		<artifactId>mybatis-spring</artifactId>
+		<version>${org.mybatis_spring-version}</version>
+	</dependency>
+	<!-- Tiles 설정 -->
+	<dependency>
+		<groupId>org.apache.tiles</groupId>
+		<artifactId>tiles-extras</artifactId>
+		<version>${org.apache.tiles-version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.tiles</groupId>
+		<artifactId>tiles-servlet</artifactId>
+		<version>${org.apache.tiles-version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.tiles</groupId>
+		<artifactId>tiles-jsp</artifactId>
+		<version>${org.apache.tiles-version}</version>
+	</dependency>
+	<!-- JSON -->
+	<dependency>
+		<groupId>com.fasterxml.jackson.core</groupId>
+		<artifactId>jackson-databind</artifactId>
+		<version>${com.fasterxml.jackson.core-version}</version>
+	</dependency>
+	<!-- Test -->
+	<dependency>
+		<groupId>junit</groupId>
+		<artifactId>junit</artifactId>
+		<version>${junit-version}</version>
+		<scope>test</scope>
+	</dependency>
+</dependencies>
